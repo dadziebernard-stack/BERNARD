@@ -1,0 +1,6 @@
+{
+  "name": "SUSU COLLECTOR",
+  "description": "Comprehensive Susu & daily micro-savings management platform for Field Collectors, Mobile Bankers, and Super Admin in Ghana (GH₵).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
