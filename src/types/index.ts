@@ -42,6 +42,7 @@ export interface DistrictBranch {
   email?: string;
   operatingAreas?: string[]; // e.g. ["Makola Market", "Okaishie", "Tudu"]
   status: 'ACTIVE' | 'INACTIVE';
+  dailyCollectionGoal?: number; // Configurable daily collection target in GH₵ (e.g. 5,000)
   createdAt: string;
 }
 
@@ -118,6 +119,8 @@ export interface Transaction {
   saverAccountNumber?: string;
   groupId?: string;
   groupName?: string;
+  branchId?: string;
+  branchName?: string;
   collectorId: string;
   collectorName: string;
   collectorCode: string;

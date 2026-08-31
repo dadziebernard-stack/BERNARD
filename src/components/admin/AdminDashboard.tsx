@@ -1,6 +1,7 @@
 import React from 'react';
-import { Collector, Saver, Transaction, GroupSusu, DailyReconciliation } from '../../types/index.ts';
+import { Collector, Saver, Transaction, GroupSusu, DailyReconciliation, AuthSession } from '../../types/index.ts';
 import { StatCard } from '../common/StatCard.tsx';
+import { DailyCollectionProgressCard } from './DailyCollectionProgressCard.tsx';
 import { 
   Coins, 
   Users, 
@@ -31,6 +32,7 @@ interface AdminDashboardProps {
   groups: GroupSusu[];
   reconciliations?: DailyReconciliation[];
   currencySymbol?: string;
+  authSession?: AuthSession | null;
   onNavigateTab: (tab: string) => void;
   onOpenNewSaverModal?: () => void;
   onOpenNewGroupModal: () => void;
@@ -45,6 +47,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   groups,
   reconciliations = [],
   currencySymbol = 'GH₵',
+  authSession,
   onNavigateTab,
   onOpenNewSaverModal,
   onOpenNewGroupModal,
@@ -186,6 +189,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => onNavigateTab('groups')}
         />
       </div>
+
+      {/* Primary Feature: Daily Collection Progress vs Configurable Branch Goal */}
+      <DailyCollectionProgressCard
+        savers={savers}
+        transactions={transactions}
+        currencySymbol={currencySymbol}
+        authSession={authSession}
+        onNavigateTab={onNavigateTab}
+      />
 
       {/* Main Grid: Savers List & Group Susu Circles & Live Transaction Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

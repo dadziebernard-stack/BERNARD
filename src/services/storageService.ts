@@ -581,6 +581,8 @@ export const StorageService = {
       saverId: saver.id,
       saverName: saver.fullName,
       saverAccountNumber: saver.accountNumber,
+      branchId: saver.branchId,
+      branchName: saver.branchName,
       collectorId: collector.id,
       collectorName: collector.name,
       collectorCode: collector.collectorCode,
@@ -1103,6 +1105,68 @@ export const StorageService = {
     if (filtered.length === branches.length) return false;
     saveData(STORAGE_KEYS.BRANCHES, filtered);
     return true;
+  },
+
+  // Daily Branch & Network Collection Goals
+  getBranchDailyGoal(branchId: string): number {
+    const branch = this.getBranchById(branchId);
+    if (branch && typeof branch.dailyCollectionGoal === 'number' && branch.dailyCollectionGoal > 0) {
+      return branch.dailyCollectionGoal;
+    }
+    // Default branch fallback goals based on standard tiers
+    if (branchId === 'br-makola') return 10000;
+    if (branchId === 'br-kejetia') return 12000;
+    if (branchId === 'br-tema') return 7500;
+    if (branchId === 'br-kasoa') return 6000;
+    if (branchId === 'br-takoradi') return 5000;
+    return 5000;
+  },
+
+  setBranchDailyGoal(branchId: string, goalAmount: number): boolean {
+    const sanitizedGoal = Math.max(100, Math.round(goalAmount));
+    const branch = this.getBranchById(branchId);
+    if (!branch) return false;
+
+    const updated = this.updateBranch(branchId, { dailyCollectionGoal: sanitizedGoal });
+    if (updated) {
+      this.addAuditLog({
+        actorId: this.getActiveUserId(),
+        actorName: 'Supervisor / Admin',
+        actorRole: this.getActiveRole(),
+        action: 'UPDATE_BRANCH_DAILY_GOAL',
+        details: `Updated daily collection target for ${branch.name} (${branch.code}) to GH₵ ${sanitizedGoal.toLocaleString()}`,
+      });
+      return true;
+    }
+    return false;
+  },
+
+  getOverallDailyGoal(): number {
+    const custom = localStorage.getItem('susu_gh_overall_daily_goal');
+    if (custom) {
+      const parsed = parseFloat(custom);
+      if (!isNaN(parsed) && parsed > 0) return parsed;
+    }
+    // Calculate sum of active branches
+    const branches = this.getBranches().filter((b) => b.status === 'ACTIVE');
+    if (branches.length > 0) {
+      return branches.reduce((sum, b) => sum + (b.dailyCollectionGoal || this.getBranchDailyGoal(b.id)), 0);
+    }
+    return 30000;
+  },
+
+  setOverallDailyGoal(goalAmount: number): void {
+    const sanitizedGoal = Math.max(500, Math.round(goalAmount));
+    localStorage.setItem('susu_gh_overall_daily_goal', sanitizedGoal.toString());
+    notifyListeners();
+
+    this.addAuditLog({
+      actorId: this.getActiveUserId(),
+      actorName: 'Supervisor / Admin',
+      actorRole: this.getActiveRole(),
+      action: 'UPDATE_NETWORK_DAILY_GOAL',
+      details: `Updated overall network daily collection target to GH₵ ${sanitizedGoal.toLocaleString()}`,
+    });
   },
 
   // Audit Logs

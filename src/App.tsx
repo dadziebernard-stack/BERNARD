@@ -201,6 +201,7 @@ export default function App() {
             groups={groups}
             reconciliations={reconciliations}
             currencySymbol={currencySymbol}
+            authSession={authSession}
             onNavigateTab={setActiveTab}
             onOpenNewSaverModal={() => setIsNewSaverModalOpen(true)}
             onOpenNewGroupModal={() => setActiveTab('groups')}

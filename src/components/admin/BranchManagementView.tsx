@@ -355,6 +355,13 @@ export const BranchManagementView: React.FC<BranchManagementViewProps> = ({
                             <span className="font-semibold text-slate-800">{branch.branchManagerName}</span>
                           </div>
                         )}
+
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-100">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase">Daily Target:</span>
+                          <span className="font-mono font-bold text-emerald-700 text-xs">
+                            GH₵ {(branch.dailyCollectionGoal || 5000).toLocaleString()}
+                          </span>
+                        </div>
                       </div>
 
                       {/* Operating Areas / Tags */}

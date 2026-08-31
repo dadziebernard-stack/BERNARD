@@ -96,6 +96,7 @@ export const INITIAL_BRANCHES: DistrictBranch[] = [
     email: 'makola@susu.gh',
     operatingAreas: ['Makola Market', 'Okaishie', 'Cow Lane', 'Tudu', 'Kantanto'],
     status: 'ACTIVE',
+    dailyCollectionGoal: 10000,
     createdAt: '2026-01-10',
   },
   {
@@ -111,6 +112,7 @@ export const INITIAL_BRANCHES: DistrictBranch[] = [
     email: 'tema@susu.gh',
     operatingAreas: ['Community 1 Market', 'Tema Harbour Enclave', 'Site 2', 'Site 7'],
     status: 'ACTIVE',
+    dailyCollectionGoal: 7500,
     createdAt: '2026-01-15',
   },
   {
@@ -126,6 +128,7 @@ export const INITIAL_BRANCHES: DistrictBranch[] = [
     email: 'kejetia@susu.gh',
     operatingAreas: ['Kejetia Market', 'Adum Commercial Area', 'Central Market', 'Asafo'],
     status: 'ACTIVE',
+    dailyCollectionGoal: 12000,
     createdAt: '2026-01-20',
   },
   {
@@ -141,6 +144,7 @@ export const INITIAL_BRANCHES: DistrictBranch[] = [
     email: 'kasoa@susu.gh',
     operatingAreas: ['Kasoa New Market', 'Old Timber Market', 'Ofaakor Road', 'Bawjiase Junction'],
     status: 'ACTIVE',
+    dailyCollectionGoal: 6000,
     createdAt: '2026-02-01',
   },
   {
@@ -156,6 +160,7 @@ export const INITIAL_BRANCHES: DistrictBranch[] = [
     email: 'takoradi@susu.gh',
     operatingAreas: ['Market Circle', 'Kojokrom', 'Effiakuma Market', 'Harbour Commercial Zone'],
     status: 'ACTIVE',
+    dailyCollectionGoal: 5000,
     createdAt: '2026-02-05',
   },
 ];

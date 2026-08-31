@@ -31,6 +31,9 @@ export const CreateBranchModal: React.FC<CreateBranchModalProps> = ({
   const [operatingAreasInput, setOperatingAreasInput] = useState(
     initialBranch?.operatingAreas ? initialBranch.operatingAreas.join(', ') : ''
   );
+  const [dailyCollectionGoal, setDailyCollectionGoal] = useState<number>(
+    initialBranch?.dailyCollectionGoal || 5000
+  );
   const [status, setStatus] = useState<'ACTIVE' | 'INACTIVE'>(initialBranch?.status || 'ACTIVE');
   const [error, setError] = useState('');
 
@@ -86,6 +89,7 @@ export const CreateBranchModal: React.FC<CreateBranchModalProps> = ({
           phone: phone.trim(),
           email: email.trim() || undefined,
           operatingAreas,
+          dailyCollectionGoal: Number(dailyCollectionGoal) || 5000,
           status,
         });
         if (updated) {
@@ -105,6 +109,9 @@ export const CreateBranchModal: React.FC<CreateBranchModalProps> = ({
           operatingAreas,
           status,
         });
+        if (created) {
+          StorageService.updateBranch(created.id, { dailyCollectionGoal: Number(dailyCollectionGoal) || 5000 });
+        }
         onSuccess(created);
         onClose();
       }
@@ -276,6 +283,31 @@ export const CreateBranchModal: React.FC<CreateBranchModalProps> = ({
                 className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
               />
             </div>
+          </div>
+
+          {/* Daily Collection Target Goal */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">
+              Daily Branch Collection Target Goal (GH₵)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-xs text-slate-500 font-mono">
+                GH₵
+              </span>
+              <input
+                type="number"
+                min="100"
+                step="100"
+                required
+                placeholder="5000"
+                value={dailyCollectionGoal}
+                onChange={(e) => setDailyCollectionGoal(parseFloat(e.target.value) || 0)}
+                className="w-full pl-12 pr-3 py-2 text-xs font-mono font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              />
+            </div>
+            <p className="text-[10px] text-slate-400">
+              Configurable benchmark used by the admin dashboard to track daily progress.
+            </p>
           </div>
 
           {/* Operating Areas / Market Routes */}
